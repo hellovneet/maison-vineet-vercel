@@ -1,0 +1,5 @@
+Fixed Vercel deployment configuration.
+
+The previous catch-all route sent /style.css to index.html, so the browser received HTML
+instead of CSS and displayed the page in default browser styling. The Vercel config now
+lets Vercel serve index.html, style.css and script.js as normal static files.

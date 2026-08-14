@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison Vineet | Real Skin Analysis</title>
+  <meta name="description" content="Maison Vineet Real Skin Analysis — a mobile-friendly AI skin analysis and personal style experience.">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <div class="kiosk-container">
+    <video id="webcam" autoplay playsinline muted></video>
+    <div class="scan-line"></div>
+    <div class="mirror-frame"></div>
+
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark">MV</div>
+        <div>
+          <div class="brand-name">MAISON VINEET</div>
+          <div class="brand-sub">AI FITTING EXPERIENCE</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span id="cameraStatus" class="live-pill"><span></span> CAMERA READY</span>
+        
+        <button id="authButton" class="auth-button">Login / Sign up</button>
+        <div id="userMenu" class="user-menu hidden">
+          <button id="profileButton" class="profile-menu-button"><span id="userGreeting"></span> · Profile</button>
+          <button id="logoutButton">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="hud-panel">
+      <div class="hero-copy">
+        <span class="eyebrow">PERSONAL AI STYLIST</span>
+        <h1>See the look.<br><em>Feel the fit.</em></h1>
+        <p>Real-time skin-tone analysis, personalised skin guidance and style recommendations in one mobile-friendly experience.</p>
+      </div>
+
+      <div class="glass-grid">
+        <section class="info-card reveal">
+          <div class="card-head"><span>01</span><span>SKIN ANALYSIS</span></div>
+          <div class="label">Skin Undertone</div>
+          <div id="undertone-status" class="value warm">Warm (Amber / Earthy)</div>
+          <div id="skin-tone-status" class="sub-text">Skin Tone: Analysing…</div>
+          <div id="palette-text" class="palette">Palette: Earth Tones (Warm Amber, Olive, Terracotta)</div>
+          <div id="ai-rec" class="recommendation">AI Pick: Maison Vineet Sahara Beige Trench</div>
+        </section>
+
+        <section class="info-card reveal delay-1">
+          <div class="card-head"><span>02</span><span>RFID GARMENT</span></div>
+          <div class="label" id="rfid-tag-label">HELD ITEM · RFID_TAG_001</div>
+          <div id="item-brand" class="value">Maison Vineet · Emerald Silk Blazer</div>
+          <div id="item-color" class="sub-text">Color Profile: Cool / Winter Deep Green</div>
+          <div id="item-sizes" class="sub-text">Sizes Available: S, M, L</div>
+          <div id="item-stock" class="stock">Inventory: In Stock (3 Left)</div>
+        </section>
+      </div>
+
+      <div class="skin-help-row">
+        <button id="skinGuideButton" class="skin-guide-button" type="button">🧴 Skin Guide · Ask about a skin concern</button>
+      </div>
+
+      <div class="bottom-row">
+        <div class="status"><span class="status-dot"></span> AI engine ready · camera fallback supported</div>
+        <div class="creator">Concept & Dev · <strong>Vineet Sharma</strong></div>
+      </div>
+    </main>
+
+    <div class="side-note">MOVE TO EXPLORE <span>↗</span></div>
+  </div>
+
+
+  <!-- Skin guidance modal -->
+  <div id="skinModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-skin></div>
+    <div class="skin-modal" role="dialog" aria-modal="true" aria-labelledby="skinTitle">
+      <button class="close-modal" data-close-skin aria-label="Close">×</button>
+      <div class="auth-brand skin-brand">SG</div>
+      <span class="eyebrow">PERSONAL SKIN GUIDE</span>
+      <h2 id="skinTitle">What is bothering your skin?</h2>
+      <p class="skin-intro">Describe what you notice. The guide gives general self-care information and tells you when professional medical advice may be useful.</p>
+      <div class="skin-quick">
+        <button type="button" data-skin-q="acne pimples">Acne / pimples</button>
+        <button type="button" data-skin-q="dry itchy skin">Dry / itchy</button>
+        <button type="button" data-skin-q="dark spots pigmentation">Dark spots</button>
+        <button type="button" data-skin-q="redness irritation">Redness</button>
+      </div>
+      <label class="skin-label" for="skinQuestion">Your question</label>
+      <textarea id="skinQuestion" class="skin-input" rows="3" placeholder="Example: I have small pimples on my forehead. What can I do?"></textarea>
+      <button id="skinAskButton" class="primary-auth skin-ask" type="button">Get general guidance <span>→</span></button>
+      <div id="skinAnswer" class="skin-answer" aria-live="polite"></div>
+      <p class="skin-disclaimer">This is not a diagnosis and cannot replace a dermatologist or doctor. Seek prompt medical care for severe pain, rapidly spreading swelling/redness, significant infection, eye involvement, breathing difficulty, or other urgent symptoms.</p>
+    </div>
+  </div>
+
+  <!-- User dashboard / profile modal -->
+  <div id="profileModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-profile></div>
+    <div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+      <button class="close-modal" data-close-profile aria-label="Close">×</button>
+      <div class="profile-hero">
+        <div id="profileAvatar" class="profile-avatar">MV</div>
+        <div><span class="eyebrow">PERSONAL DASHBOARD</span><h2 id="profileTitle">Your profile</h2><p>Set your preferences so the analysis and recommendations feel more personal.</p></div>
+      </div>
+      <div class="profile-stats">
+        <div><span>ACCOUNT</span><strong id="profileEmail">—</strong></div>
+        <div><span>SKIN ANALYSIS</span><strong id="profileTone">Not analysed</strong></div>
+      </div>
+      <form id="profileForm" class="profile-form" novalidate>
+        <div class="profile-grid">
+          <div class="field"><label for="profileName">Name</label><input id="profileName" type="text" placeholder="Your name" required></div>
+          <div class="field"><label for="profileStyle">Style preference</label><select id="profileStyle"><option>Minimal</option><option>Casual</option><option>Streetwear</option><option>Formal</option><option>Traditional</option></select></div>
+          <div class="field"><label for="profileSkinType">Skin type</label><select id="profileSkinType"><option>Not sure</option><option>Normal</option><option>Dry</option><option>Oily</option><option>Combination</option><option>Sensitive</option></select></div>
+          <div class="field"><label for="profileColor">Favourite colour</label><input id="profileColor" type="text" placeholder="e.g. Emerald"></div>
+        </div>
+        <div class="field"><label for="profileBio">About you</label><textarea id="profileBio" rows="3" placeholder="Optional: tell Maison Vineet about your style or preferences."></textarea></div>
+        <p id="profileMessage" class="profile-message" role="status"></p>
+        <button class="primary-auth" type="submit">Save profile <span>→</span></button>
+      </form>
+      <p class="demo-note">Your profile is stored locally in this browser in this demo build.</p>
+    </div>
+  </div>
+
+  <!-- Authentication modal -->
+  <div id="authModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-auth></div>
+    <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="close-modal" data-close-auth aria-label="Close">×</button>
+      <div class="auth-brand">MV</div>
+      <span class="eyebrow">MAISON VINEET MEMBER</span>
+      <h2 id="authTitle">Welcome back.</h2>
+      <p class="auth-intro">Sign in to save your mirror preferences and styling session.</p>
+
+      <div class="auth-tabs">
+        <button class="tab active" data-mode="login">Login</button>
+        <button class="tab" data-mode="signup">Sign up</button>
+      </div>
+
+      <form id="authForm" novalidate>
+        <div id="nameField" class="field hidden-field">
+          <label for="name">Name</label>
+          <input id="name" type="text" autocomplete="name" placeholder="Vineet Sharma">
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="current-password" placeholder="Minimum 6 characters" required minlength="6">
+        </div>
+        <div id="confirmField" class="field hidden-field">
+          <label for="confirmPassword">Confirm password</label>
+          <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Repeat your password">
+        </div>
+        <p id="authMessage" class="auth-message" role="alert"></p>
+        <button class="primary-auth" type="submit"><span id="authSubmitText">Login</span><span>→</span></button>
+      </form>
+      <p class="demo-note">Demo authentication for this static Netlify build. Accounts are stored only in this browser.</p>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+
+  <aside class="smart-dock" aria-label="Skin analysis tools">
+    <div class="dock-brand"><span class="dock-dot"></span><div><b>SKIN ANALYSIS</b><small>AI BEAUTY & STYLE</small></div></div>
+    <div class="dock-actions">
+      <button id="dockSkin" type="button" title="Ask Skin Assistant">🧴 <span>Skin AI</span></button>
+      <button id="dockTone" type="button" title="Skin Tone">🎨 <span>Tone</span></button>
+    </div>
+  </aside>
+</div>
+
+</body>
+</html>
